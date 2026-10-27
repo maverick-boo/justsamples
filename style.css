@@ -1,0 +1,217 @@
+/* =====================================================
+   LAKBAY PILIPINAS - "BANIG" DESIGN
+   Concept: woven banig mat stripes + flag-inspired palette.
+   Sections: 1 Tokens | 2 Base | 3 Header/Nav | 4 Buttons
+             5 Home | 6 Cards | 7 Culture | 8 Form | 9 Footer | 10 Responsive
+   ===================================================== */
+
+/* 1. TOKENS (CSS variables) - change a colour once, it updates the whole site.
+   HCI: CONSISTENCY. Every page reads from the same palette. */
+:root {
+    --navy: #0a2a5e;      /* main brand colour, text-on-white contrast ~14:1 */
+    --ink: #172033;       /* body text */
+    --sea: #e7f1f7;       /* soft section background */
+    --sun: #fcd116;       /* accent (flag yellow); always paired with navy text */
+    --red: #b8102a;       /* banig stripe + small accents */
+    --white: #ffffff;
+    --radius: 6px;
+    --font-head: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+}
+
+/* 2. BASE */
+*, *::before, *::after { box-sizing: border-box; }   /* padding never makes boxes wider than 100% */
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1.125rem;          /* 18px: readable default (HCI: readability) */
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--white);
+}
+h1, h2, h3 { font-family: var(--font-head); color: var(--navy); line-height: 1.15; margin: 0 0 .5em; }
+h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }   /* clamp = fluid size, no media query needed */
+h3 { font-size: 1.35rem; }
+p { margin: 0 0 1em; max-width: 65ch; }          /* ~65 characters per line is easiest to read */
+img { max-width: 100%; display: block; }
+a { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--red); text-decoration-thickness: 2px; }
+
+/* Visible keyboard focus. HCI: ACCESSIBILITY (keyboard users must see where they are) */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+    outline: 3px solid var(--sun);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--navy);
+}
+
+/* Skip link: hidden until a keyboard user tabs to it */
+.skip-link { position: absolute; left: 1rem; top: -4rem; background: var(--sun); color: var(--navy);
+    padding: .6rem 1rem; font-weight: 700; z-index: 100; }
+.skip-link:focus { top: 1rem; }
+
+.wrap { width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+.section { padding: 4rem 0; }
+.section-alt { background: var(--sea); }
+
+/* 3. HEADER + NAV (sticky so navigation is always reachable) */
+.site-header { position: sticky; top: 0; z-index: 50; background: var(--navy); }
+.header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: .5rem 1.5rem; padding: .75rem 0; width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+.brand { display: flex; align-items: center; gap: .6rem; font-family: var(--font-head);
+    font-size: 1.5rem; font-weight: 800; color: var(--white); text-decoration: none; }
+.brand:hover { color: var(--sun); }
+.brand-sun { width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--sun);
+    box-shadow: 0 0 0 3px var(--navy), 0 0 0 5px var(--sun); }   /* simple sun logo mark, pure CSS */
+.site-header ul { display: flex; flex-wrap: wrap; gap: .25rem; list-style: none; margin: 0; padding: 0; }
+.site-header nav a { display: block; padding: .55rem 1rem; color: var(--white); text-decoration: none;
+    font-weight: 600; border-bottom: 3px solid transparent; }
+.site-header nav a:hover { background: rgba(255,255,255,.14); border-bottom-color: var(--sun); color: var(--white); }
+/* HCI: don't rely on colour alone. The current page gets a thick underline AND bold text. */
+.site-header nav a[aria-current="page"] { border-bottom-color: var(--sun); font-weight: 800; }
+
+/* THE MEMORABLE ELEMENT: banig woven stripe band */
+.banig { height: 10px; background: repeating-linear-gradient(90deg,
+    var(--red) 0 24px, var(--sun) 24px 48px, var(--white) 48px 72px, var(--sun) 72px 96px); }
+
+/* 4. BUTTONS - one style for every button/link-button on the site */
+.button, button {
+    display: inline-block; font: 700 1.05rem var(--font-body); cursor: pointer;
+    padding: .8rem 1.6rem; border: 2px solid var(--navy); border-radius: var(--radius);
+    background: var(--sun); color: var(--navy); text-decoration: none;
+    transition: background .2s, color .2s, transform .2s;
+}
+.button:hover, button:hover { background: var(--navy); color: var(--white); transform: translateY(-2px); }
+.button:active, button:active { transform: translateY(0); }
+.button-outline { background: transparent; }
+
+/* 5. HOME HERO */
+.hero { position: relative; color: var(--white); background: var(--navy); overflow: hidden; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero::after { content: ""; position: absolute; inset: 0;      /* dark gradient keeps white text readable on a photo */
+    background: linear-gradient(90deg, rgba(10,42,94,.92) 0%, rgba(10,42,94,.65) 55%, rgba(10,42,94,.15) 100%); }
+.hero-text { position: relative; z-index: 1; padding: 7rem 0 7.5rem; }
+.hero h1 { color: var(--white); font-size: clamp(2.4rem, 6vw, 4.4rem); max-width: 14ch; }
+.hero p { font-size: 1.3rem; max-width: 40ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+.hero .button-outline { color: var(--white); border-color: var(--white); }
+.hero .button-outline:hover { background: var(--white); color: var(--navy); }
+
+/* Page title strip for inner pages */
+.page-title { background: var(--sea); padding: 3rem 0 2.5rem; border-bottom: 1px solid #c9dbe6; }
+.page-title p { font-size: 1.2rem; margin: 0; }
+
+/* 6. CARDS - CSS Grid: auto-fit makes columns collapse by themselves on small screens */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 2rem; }
+.card { display: flex; flex-direction: column; background: var(--white); border: 2px solid var(--navy);
+    border-radius: var(--radius); overflow: hidden; box-shadow: 6px 6px 0 var(--navy); }
+.card-media { background: linear-gradient(135deg, var(--navy), #2f6fa8); }   /* shows if a photo ever fails to load */
+.card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.card-body { display: flex; flex-direction: column; flex: 1; padding: 1.4rem; }
+.card-body .button { margin-top: auto; align-self: flex-start; }               /* buttons line up at the bottom */
+.location { display: inline-block; background: var(--sun); color: var(--navy); font-weight: 700;
+    font-size: .95rem; padding: .15rem .7rem; border-radius: 99px; margin-bottom: .7rem; }
+.facts { margin: 0 0 1.2rem; padding-left: 1.2rem; }
+
+/* Home highlights */
+.highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 2rem; }
+.highlight { border-top: 6px solid var(--red); padding-top: 1rem; }
+.highlight:nth-child(2) { border-top-color: var(--sun); }
+.highlight:nth-child(3) { border-top-color: var(--navy); }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
+.section-head p { margin: 0; }
+
+/* 7. CULTURE - alternating rows: text beside a visual panel */
+.culture-row { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; align-items: center; padding: 3rem 0; border-bottom: 1px solid #c9dbe6; }
+.culture-row:nth-child(even) { grid-template-columns: 2fr 1fr; }
+.culture-row:nth-child(even) .culture-visual { order: 2; }
+.culture-visual { display: grid; place-items: center; aspect-ratio: 4 / 3; font-size: 5rem; border-radius: var(--radius);
+    background: var(--sea); border: 2px solid var(--navy); }
+.culture-row:nth-child(2) .culture-visual { background: var(--sun); }
+.culture-row:nth-child(3) .culture-visual { background: var(--navy); }
+.dish-list { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 1rem; }
+.dish-list li { border: 2px solid var(--navy); border-radius: 99px; padding: .1rem .85rem; font-weight: 600; }
+
+/* 8. CONTACT FORM */
+.contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 3rem; align-items: start; }
+.contact-details { background: var(--navy); color: var(--white); padding: 2rem; border-radius: var(--radius); }
+.contact-details h2, .contact-details h3 { color: var(--sun); }
+.contact-details a { color: var(--white); }
+form { background: var(--white); border: 2px solid var(--navy); border-radius: var(--radius); padding: 2rem; box-shadow: 6px 6px 0 var(--navy); }
+label { display: block; margin: 1.2rem 0 .35rem; font-weight: 700; color: var(--navy); }
+form label:first-of-type { margin-top: 0; }
+.hint { font-weight: 400; color: #45506a; }   /* "(required)" is TEXT, not just a colour */
+input, select, textarea { width: 100%; padding: .75rem; font: inherit; color: var(--ink);
+    background: var(--white); border: 2px solid #5b6b85; border-radius: var(--radius); }
+input:hover, select:hover, textarea:hover { border-color: var(--navy); }
+input:focus, select:focus, textarea:focus { border-color: var(--navy); }
+textarea { resize: vertical; min-height: 8rem; }
+form button { margin-top: 1.6rem; width: 100%; }
+
+/* 9. FOOTER - identical on every page */
+.site-footer { background: var(--navy); color: var(--white); }
+.footer-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding: 3rem 0 2rem; }
+.site-footer h2 { font-size: 1.2rem; color: var(--sun); }
+.site-footer a { color: var(--white); }
+.site-footer a:hover { color: var(--sun); }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li { margin-bottom: .4rem; }
+.copyright { border-top: 1px solid rgba(255,255,255,.25); padding: 1rem 0; font-size: .95rem; }
+.copyright p { margin: 0; max-width: none; }
+
+/* 10. RESPONSIVE - media queries adjust the layout as screens shrink */
+@media (max-width: 800px) {
+    .contact-layout, .culture-row, .culture-row:nth-child(even) { grid-template-columns: 1fr; }
+    .culture-row:nth-child(even) .culture-visual { order: 0; }
+    .culture-visual { aspect-ratio: 16 / 7; font-size: 4rem; }
+    .hero-text { padding: 4.5rem 0 5rem; }
+    .section { padding: 3rem 0; }
+}
+@media (max-width: 560px) {
+    body { font-size: 1.05rem; }
+    .header-inner { justify-content: center; }
+    .site-header nav a { padding: .5rem .7rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .card, form { box-shadow: 4px 4px 0 var(--navy); }
+    form, .contact-details { padding: 1.4rem; }
+    .hero-actions .button { width: 100%; text-align: center; }
+}
+/* Respect users who turn off animations in their OS settings */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* =====================================================
+   11. JAVASCRIPT-ASSISTED ANIMATION
+   Rule: all hiding is under ".js", a class that script.js adds.
+   If JavaScript fails or is off, everything stays visible.
+   ===================================================== */
+
+/* Scroll reveal: starts faded and lower, script adds .is-visible */
+.js .reveal { opacity: 0; transform: translateY(28px);
+    transition: opacity .6s ease, transform .6s ease; }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Hero entrance: the one orchestrated moment on page load */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes drift { from { transform: scale(1.08); } to { transform: scale(1); } }
+.hero > img { animation: drift 12s ease-out both; }
+.hero-text > * { animation: rise .8s ease both; }
+.hero-text > :nth-child(2) { animation-delay: .15s; }
+.hero-text > :nth-child(3) { animation-delay: .3s; }
+
+/* Header gets a shadow once the page scrolls */
+.site-header { transition: box-shadow .3s; }
+.site-header.is-scrolled { box-shadow: 0 6px 18px rgba(0,0,0,.3); }
+
+/* Form confirmation message (shown by script.js).
+   HCI: feedback. Uses a check icon + text, not color alone. */
+.form-status { margin: 1.2rem 0 0; padding: 1rem; border-left: 6px solid var(--navy);
+    background: var(--sea); font-weight: 600; color: var(--navy); }
+.form-status[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; }
+    .hero > img, .hero-text > * { animation: none; }
+}

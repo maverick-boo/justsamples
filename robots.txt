@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maverick-boo.github.io/justsamples/sitemap.xml
